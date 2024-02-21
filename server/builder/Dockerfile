@@ -1,4 +1,4 @@
-FROM ubuntu:focul
+FROM ubuntu:focal
 
 RUN apt-get update
 RUN apt-get install -y curl
@@ -19,4 +19,4 @@ RUN npm install
 RUN chmod +x exec.sh
 RUN chmod +x script.js
 
-ENTRYPOINT [ "exec.sh" ]
+ENTRYPOINT [ "/home/app/exec.sh" ]
