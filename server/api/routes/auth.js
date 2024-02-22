@@ -25,7 +25,7 @@ router.post('/signup', async (req,res) => {
 
     } catch (error) {
         console.log(error)
-        res.json('Internal Server error');
+        res.json({success:false,error:'Internal Server error'});
     }
 })
 
@@ -52,7 +52,7 @@ router.post('/login',async (req,res) => {
 
     } catch (error) {
         console.log(error)
-        res.json('Internal Server error');
+        res.json({success:false,error:'Internal Server error'});
     }
 })
 
