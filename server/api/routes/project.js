@@ -21,10 +21,10 @@ router.post("/deploy", authenticate, async (req, res) => {
     const { slug, gitUrl } = req.body;
     const userId = req.userId;
 
-    const project = TProject.findOne({slug});
+    const project = await TProject.findOne({ slug });
 
-    if(project){
-        return res.json({success:false,error: "slug already exists"});
+    if (project) {
+      return res.json({ success: false, error: "slug already exists" });
     }
 
     const command = new RunTaskCommand({
@@ -51,6 +51,7 @@ router.post("/deploy", authenticate, async (req, res) => {
                 name: "AWS_SECRET_ACCESS_KEY",
                 value: process.env.AWS_SECRET_ACCESS_KEY,
               },
+              { name: "REDIS_URI", value: process.env.REDIS_URI },
             ],
           },
         ],
@@ -58,6 +59,7 @@ router.post("/deploy", authenticate, async (req, res) => {
     });
 
     await ecsClient.send(command);
+    
     await TProject.create({ gitUrl, slug, userId });
     return res.json({
       status: "queued",
