@@ -60,6 +60,7 @@ async function deleteFolder(slug) {
 router.post("/deploy", authenticate, async (req, res) => {
   try {
     const { slug, gitUrl } = req.body;
+    
     const userId = req.userId;
 
     const project = await TProject.findOne({ slug });
@@ -101,10 +102,11 @@ router.post("/deploy", authenticate, async (req, res) => {
 
     await ecsClient.send(command);
 
-    await TProject.create({ gitUrl, slug, userId });
+    const newproject = await TProject.create({ gitUrl, slug, userId });
     return res.json({
-      status: "queued",
-      data: { slug, url: `http://${slug}.${process.env.HOST_URL}` },
+      success: true,
+      url: `http://${slug}.${process.env.HOST_URL}`,
+      project: newproject
     });
   } catch (error) {
     console.log(error);
@@ -168,18 +170,18 @@ router.post("/redeploy", authenticate, async (req, res) => {
   }
 });
 
-router.get("/getprojects", authenticate, async (req, res) => {
+router.get("/getAll", authenticate, async (req, res) => {
   try {
     const userId = req.userId;
     const projects = await TProject.find({ userId });
-    return res.json({ success: true, projects });
+    return res.json({ success: true, projects});
   } catch (error) {
     console.log(error);
     res.json({ success: false, error: "internal server error" });
   }
 });
 
-router.delete("/deleteproject", authenticate, async (req, res) => {
+router.delete("/deleteOne", authenticate, async (req, res) => {
   try {
     const userId = req.userId;
     const { slug } = req.body;
