@@ -15,7 +15,7 @@ const TProject = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tusers'
     }
-})
+},{timestamps: true})
 
 
 module.exports = mongoose.model('TProjects',TProject);

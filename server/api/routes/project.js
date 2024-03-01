@@ -106,7 +106,6 @@ router.post("/deploy", authenticate, async (req, res) => {
     return res.json({
       success: true,
       url: `http://${slug}.${process.env.HOST_URL}`,
-      project: newproject
     });
   } catch (error) {
     console.log(error);
@@ -161,8 +160,8 @@ router.post("/redeploy", authenticate, async (req, res) => {
     await ecsClient.send(command);
 
     return res.json({
-      status: "queued",
-      data: { slug, url: `http://${slug}.${process.env.HOST_URL}` },
+      success: true,
+      url: `http://${slug}.${process.env.HOST_URL}`
     });
   } catch (error) {
     console.log(error);
@@ -173,7 +172,7 @@ router.post("/redeploy", authenticate, async (req, res) => {
 router.get("/getAll", authenticate, async (req, res) => {
   try {
     const userId = req.userId;
-    const projects = await TProject.find({ userId });
+    const projects = await TProject.find({ userId }).sort({ createdAt: -1 });
     return res.json({ success: true, projects});
   } catch (error) {
     console.log(error);

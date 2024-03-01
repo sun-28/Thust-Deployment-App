@@ -2,8 +2,8 @@ import React from 'react'
 
 const TopBar = () => {
   return (
-    <div className='w-full h-16 bg-slate-700 flex justify-center items-center'>
-      <h2 className='text-2xl font-bold'>Thrust</h2>
+    <div className='w-full h-16 topnav flex justify-center items-center'>
+      <h2 style={{color: '#fe5f15'}} className='font-extrabold text-3xl'>Thrust</h2>
     </div>
   )
 }

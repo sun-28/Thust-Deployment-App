@@ -29,7 +29,6 @@ const io = new Server({ cors: '*' })
 io.on('connection',(socket) => {
     socket.on('subscribe',(channel) => {
         socket.join(channel);
-        
     })
 })
 
