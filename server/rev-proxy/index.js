@@ -10,7 +10,7 @@ const proxy = httpProxy.createProxy()
 app.use((req,res)=>{
 
     const hostname = req.hostname;
-
+    console.log(hostname);
     const sub = hostname.split('.')[0];
 
     const resolvesTo = `${BaseURL}/${sub}`
